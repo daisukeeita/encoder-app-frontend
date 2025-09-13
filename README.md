@@ -1,5 +1,8 @@
 # Encoder Application (Front-End)
 
-This will be the Graphical User Interface for Encoder Application
+The Graphical User Interface for Encoder Application.
 
-*To be updated in the future.*
+The Encoder Application retrieves the vehicle details from LTMS using either Plate Number or MV File Number from customer's Official Receipt and/or Certification of Registration.
+
+_To be updated in the future._
+
