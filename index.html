@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'"
+    />
+    <meta
+      http-equiv="X-Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'"
+    />
+    <title>PMVIC-Encoder</title>
+  </head>
+  <body>
+    <form>
+      <fieldset>
+        <legend>Search Vehicle</legend>
+        <label for="plate_no">Plate Number:</label>
+        <input type="text" id="plate_no" name="plate_no" />
+        <label for="mv_file_no">MV File Number</label>
+        <input type="text" id="mv_file_no" name="mv_file_no" />
+        <button type="submit" value="Submit" id="submit-btn">Submit</button>
+      </fieldset>
+    </form>
+
+    <fieldset>
+      <legend>Vehicle Information</legend>
+      <div class="wrapper">
+        <p class="field-name">Inspection ID: <span id="inspection-id">ASDF</span></p>
+      </div>
+      <div class="wrapper">
+        <p class="field-name">License Plate: <span id="license-plate">License</span></p>
+      </div>
+      <div class="wrapper">
+        <p class="field-name">MV File Number: <span id="mv-file-number">MV File Number</span></p>
+      </div>
+      <div class="wrapper">
+        <p class="field-name">Chassis: <span id="chassis">Chassis</span></p>
+      </div>
+      <div class="wrapper">
+        <p class="field-name">Engine: <span id="engine">Engine</span></p>
+      </div>
+      <div class="wrapper">
+        <p class="field-name">Color: <span id="vehicle-color"></span></p>
+      </div>
+      <div class="wrapper">
+        <p class="field-name">Category Type: <span id="category-type">Category Type</span></p>
+      </div>
+      <div>
+        <p class="field-name">Model: <span id="vehicle-model">Model</span></p>
+      </div>
+      <div class="wrapper">
+        <p class="field-name">Year Model: <span id="year-model">Year Model</span></p>
+      </div>
+      <div class="wrapper">
+        <p class="field-name">Fuel Type: <span id="fuel-type">Fuel Type</span></p>
+      </div>
+      <div id="error-msg"></div>
+    </fieldset>
+  </body>
+  <script src="dist/renderer.js"></script>
+</html>
