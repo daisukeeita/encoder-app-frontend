@@ -1,23 +1,26 @@
 import React from 'react';
-import {createRoot} from 'react-dom/client';
+import { createRoot } from 'react-dom/client';
 import './index.css';
 import SearchVehicle from './components/SearchVehicle';
+import VehicleDetails from './components/VehicleDetails';
 
 const App = () => {
   return (
-    <div>
-      <h1 className='font-bold underline text-red-700'>Hello from Electron and React! 👋🏼</h1>
-      <p>This is a desktop application built with web technologies.</p>
-      <SearchVehicle />
-    </div>
-  )
-}
+    <>
+      <h1 className='font-sans font-bold mt-3 ml-3 mb-5'>ENCODE VEHICLE</h1>
+      <div className='font-sans'>
+        <SearchVehicle />
+        <VehicleDetails />
+      </div>
+    </>
+  );
+};
 
-const rootElement : HTMLElement = document.getElementById('root');
+const rootElement : HTMLElement = document.getElementById( 'root' );
 
-if (rootElement) {
-  const root = createRoot(rootElement);
-  root.render(<App />);
+if ( rootElement ) {
+  const root = createRoot( rootElement );
+  root.render( <App /> );
 }
 
 export default App;
