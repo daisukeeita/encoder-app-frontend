@@ -1,54 +1,76 @@
 import React from 'react';
 
-export default function VehicleDetails() {
+interface VehicleDetailsProps {
+  inspectionID : string,
+  licensePlate : string,
+  mvFileNo : string,
+  chassisNo : string,
+  engineNo : string,
+  color : string,
+  categoryType : string,
+  fuelType : string,
+  modelYear : string
+}
+
+export default function VehicleDetails({
+    inspectionID,
+    licensePlate,
+    mvFileNo,
+    chassisNo,
+    engineNo,
+    color,
+    categoryType,
+    fuelType,
+    modelYear 
+  } : VehicleDetailsProps ) {
   return (
     <>
-      <ul className='w-5/6 mx-auto list bg-base-100 rounded-box shadow-md'>
+      <ul className='list bg-base-100 rounded-box shadow-md mt-5'>
         <li className='p-4 pb-2 text-xs opacity-60 tracking-wide'>VEHICLE DETAILS</li>
 
         <li className='list-row'>
-          <div>Inspection ID: </div>
-          <div className='text-xs uppercase font-semibold opcity-60'>inspection id value</div>
+          <div className='w-30'>Inspection ID: </div>
+          <div className='text-xs uppercase font-semibold opcity-60'>{inspectionID}</div>
         </li>
 
         <li className='list-row'>
-          <div>License Plate: </div>
-          <div className='text-xs uppercase font-semibold opcity-60'>license plate value</div>
+          <div className='w-30'>License Plate: </div>
+          <div className='text-xs uppercase font-semibold opcity-60'>{licensePlate}</div>
         </li>
 
         <li className='list-row'>
-          <div>MV File Number: </div>
-          <div className='text-xs uppercase font-semibold opcity-60'>mv file number value</div>
+          <div className='w-30'>MV File Number: </div>
+          <div className='text-xs uppercase font-semibold opcity-60'>{mvFileNo}</div>
         </li>
 
         <li className='list-row'>
-          <div>Chassis: </div>
-          <div className='text-xs uppercase font-semibold opcity-60'>chassis value</div>
+          <div className='w-30'>Chassis: </div>
+          <div className='text-xs uppercase font-semibold opcity-60'>{chassisNo}</div>
         </li>
 
         <li className='list-row'>
-          <div>Engine: </div>
-          <div className='text-xs uppercase font-semibold opcity-60'>engine value</div>
+          <div className='w-30'>Engine: </div>
+          <div className='text-xs uppercase font-semibold opcity-60'>{engineNo}</div>
         </li>
 
         <li className='list-row'>
-          <div>Color: </div>
-          <div className='text-xs uppercase font-semibold opcity-60'>color value</div>
+          <div className='w-30'>Color: </div>
+          <div className='text-xs uppercase font-semibold opcity-60'>{color}</div>
         </li>
 
         <li className='list-row'>
-          <div>Category Type: </div>
-          <div className='text-xs uppercase font-semibold opcity-60'>category type value</div>
+          <div className='w-30'>Category Type: </div>
+          <div className='text-xs uppercase font-semibold opcity-60'>{categoryType}</div>
         </li>
 
         <li className='list-row'>
-          <div>Fuel Type: </div>
-          <div className='text-xs uppercase font-semibold opcity-60'>fuel type value</div>
+          <div className='w-30'>Fuel Type: </div>
+          <div className='text-xs uppercase font-semibold opcity-60'>{fuelType}</div>
         </li>
 
         <li className='list-row'>
-          <div>Model Year: </div>
-          <div className='text-xs uppercase font-semibold opcity-60'>model year value</div>
+          <div className='w-30'>Model Year: </div>
+          <div className='text-xs uppercase font-semibold opcity-60'>{modelYear}</div>
         </li>
       </ul>
     </>
