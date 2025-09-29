@@ -1,43 +1,39 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { VehicleDetailsContext } from "../contexts/VehicleDetailsContext";
+import { formDataToObject } from "../utils/formDataToObject";
 import fetchVehicleData from "../services/FetchVehicleData";
-import VehicleDetails from "./VehicleDetails";
-
-function formDataToObject(formData : FormData)  {
-  return Object.fromEntries(formData.entries())
-}
+import { VehicleApiResult } from "./VehicleApiResult";
 
 export default function SearchVehicle (){
   // TODO: CONVERT THIS INTO DROPDOWN STYLE
-
   const [plateNumber, setPlateNumber] = useState('');
   const [mvFileNumber, setMvFileNumber] = useState('');
   const [chassis, setChassis] = useState('');
   const [engine, setEngine] = useState('');
   const [vin, setVin] = useState('');
 
-  const [inspectionID, setInspectionID] = useState('');
-  const [licensePlate, setLicensePlate] = useState('');
-  const [mvFileNo, setMvFileNo] = useState('');
-  const [chassisNo, setChassisNo] = useState('');
-  const [engineNo, setEngineNo] = useState('');
-  const [color, setColor] = useState('');
-  const [categoryType, setCategoryType] = useState('');
-  const [fuelType, setFuelType] = useState('');
-  const [modelYear, setModelYear] = useState('');
+  const [isPending, setIsPending] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(null);
 
+  const {
+    setInspectionID, setLicensePlate,
+    setMvFileNo,     setChassisNo,
+    setEngineNo,     setColor, 
+    setCategoryType, setFuelType,
+    setModelYear 
+  } = useContext(VehicleDetailsContext);
 
-  function handleSubmit (event: React.FormEvent<HTMLFormElement>) {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setIsPending(true);
 
-    if (event == null) {
-      console.error("event is null.");
-    } else {
-      const formData = formDataToObject(new FormData(event.currentTarget));
+    const formData = formDataToObject(new FormData(event.currentTarget));
+    const vehicleData = fetchVehicleData(formData);
 
-      const vehicleData = fetchVehicleData(formData);
 
-      vehicleData.then(data => {
-        setInspectionID(data.inspectionId)
+    vehicleData.then(data => {
+        setInspectionID(data.inspectionId)  
         setLicensePlate(data.licensePlate)
         setMvFileNo(data.mvFileNumber)
         setChassisNo(data.chassis)
@@ -46,9 +42,25 @@ export default function SearchVehicle (){
         setCategoryType(data.categoryType)
         setFuelType(data.fuelType)
         setModelYear(data.modelYear)
-      }) 
-    }
-  } 
+
+        setSuccess(true);
+        setIsPending(false);
+    }).catch(error => {
+        setError(error);
+        setIsPending(false);
+    }).finally(() => {
+        setIsPending( false);
+        setPlateNumber('');
+        setMvFileNumber('');
+        setChassis('');
+        setEngine('');
+        setVin('');
+        setTimeout(() => {
+          setSuccess(false);
+          setError(null);
+        }, 5000);
+    })
+  };
 
   return (
     <>
@@ -120,20 +132,12 @@ export default function SearchVehicle (){
           <div className="col-start-4 col-span-1 flex justify-center" style={{display: 'none'}}>
             <button type="submit" className="btn btn-neutral btn-dash">Search</button>
           </div>
+
+          {isPending ? <VehicleApiResult alertType="info" message="Searching..." /> : null}
+          {success ? <VehicleApiResult alertType="success" message="Vehicle Retrieved Successfully."/> : null}
+          {error ? <VehicleApiResult alertType="error" message={`${error.message}`}/> : null}
         </fieldset>
       </form>
-
-      <VehicleDetails 
-        inspectionID={inspectionID}
-        licensePlate={licensePlate}
-        mvFileNo={mvFileNo}
-        chassisNo={chassisNo}
-        engineNo={engineNo}
-        color={color}
-        categoryType={categoryType}
-        fuelType={fuelType}
-        modelYear={modelYear} 
-      />
     </>
   )
 }
