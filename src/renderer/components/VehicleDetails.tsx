@@ -1,18 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { VehicleDetailsContext } from '../contexts/VehicleDetailsContext';
 
-interface VehicleDetailsProps {
-  inspectionID : string,
-  licensePlate : string,
-  mvFileNo : string,
-  chassisNo : string,
-  engineNo : string,
-  color : string,
-  categoryType : string,
-  fuelType : string,
-  modelYear : string
-}
-
-export default function VehicleDetails({
+export default function VehicleDetails ()  {
+  const {
     inspectionID,
     licensePlate,
     mvFileNo,
@@ -21,8 +11,9 @@ export default function VehicleDetails({
     color,
     categoryType,
     fuelType,
-    modelYear 
-  } : VehicleDetailsProps ) {
+    modelYear
+  } = useContext(VehicleDetailsContext);
+
   return (
     <>
       <ul className='list bg-base-100 rounded-box shadow-md mt-5'>
