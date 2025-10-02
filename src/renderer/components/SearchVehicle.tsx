@@ -3,6 +3,7 @@ import { VehicleDetailsContext } from "../contexts/VehicleDetailsContext";
 import { formDataToObject } from "../utils/formDataToObject";
 import fetchVehicleData from "../services/FetchVehicleData";
 import { VehicleApiResult } from "./VehicleApiResult";
+import { logClientError, logClientInfo, logClientWarning } from "../services/logOutputs";
 
 export default function SearchVehicle (){
   // TODO: CONVERT THIS INTO DROPDOWN STYLE
@@ -28,6 +29,7 @@ export default function SearchVehicle (){
     event.preventDefault();
     setIsPending(true);
 
+    logClientInfo(`Client searching for a vehicle details using: ${plateNumber === "" ? mvFileNumber : plateNumber}`);
     const formData = formDataToObject(new FormData(event.currentTarget));
     const vehicleData = fetchVehicleData(formData);
 
@@ -43,9 +45,11 @@ export default function SearchVehicle (){
         setFuelType(data.fuelType)
         setModelYear(data.modelYear)
 
+        logClientWarning(`${data.licensePlate} is successfully retrieved from LTMS.`);
         setSuccess(true);
         setIsPending(false);
     }).catch(error => {
+        logClientError(error);
         setError(error);
         setIsPending(false);
     }).finally(() => {
