@@ -3,7 +3,7 @@ import { VehicleDetailsContext } from "../contexts/VehicleDetailsContext";
 import { formDataToObject } from "../utils/formDataToObject";
 import fetchVehicleData from "../services/FetchVehicleData";
 import { VehicleApiResult } from "./VehicleApiResult";
-import { logClientError, logClientInfo, logClientWarning } from "../services/logOutputs";
+import { logClientError, logClientInfo } from "../services/logOutputs";
 
 export default function SearchVehicle (){
   // TODO: CONVERT THIS INTO DROPDOWN STYLE
@@ -22,7 +22,8 @@ export default function SearchVehicle (){
     setMvFileNo,     setChassisNo,
     setEngineNo,     setColor, 
     setCategoryType, setFuelType,
-    setModelYear 
+    setModelYear,    setBrand,
+    setManufacturer, setMaximumTotalWeight
   } = useContext(VehicleDetailsContext);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -42,10 +43,13 @@ export default function SearchVehicle (){
         setEngineNo(data.engine)
         setColor(data.color)
         setCategoryType(data.categoryType)
+        setManufacturer(data.manufacturer)
+        setBrand(data.brand)
         setFuelType(data.fuelType)
         setModelYear(data.modelYear)
+        setMaximumTotalWeight(data.maximumTotalWeight)
 
-        logClientWarning(`${data.licensePlate} is successfully retrieved from LTMS.`);
+        logClientInfo(`${data.licensePlate} is successfully retrieved from LTMS.`);
         setSuccess(true);
         setIsPending(false);
     }).catch(error => {
@@ -69,17 +73,21 @@ export default function SearchVehicle (){
   return (
     <>
       <form method="POST" onSubmit={ handleSubmit }>
-        <fieldset className="fieldset bg-base-200 border border-base-300 rounded-box grid-cols-4 grid-rows-2 pb-5 pt-4 px-5">
+        <fieldset className="fieldset bg-base-200 border border-base-300 rounded-box grid-cols-4 grid-rows-2 pb-4 px-5">
           <legend className="fieldset-legend font-semibold ml-8">SEARCH VEHICLE</legend>
 
           {/* PLATE NUMBER */}
-          <div className="col-span-2 flex justify-center">         
+          <div className="col-span-2 flex justify-center">
+            <label className="label mr-4" htmlFor="plate_no">
+              Plate Number
+            </label>
             <input 
               type="text" 
               name="plate_no" 
               id="plate_no" 
-              placeholder="Plate Number"
-              className="input"
+              placeholder="ABC1234 | 1234ABC"
+              className="input validator"
+              pattern="^([A-Z]{3} ?[0-9]{4})|([A-Z]{3} ?[0-9]{3})$"
               value={ plateNumber }
               onChange={ e => setPlateNumber(e.target.value)}
             />
@@ -87,12 +95,16 @@ export default function SearchVehicle (){
 
           {/* MV FILE NUMBER */}
           <div className="col-span-2 flex justify-center">
+            <label className="label mr-4" htmlFor="mv_file_no">
+              MV File Number
+            </label>
             <input 
               type="text" 
               name="mv_file_no" 
               id="mv_file_no"
-              placeholder="MV File Number"
-              className="input"
+              placeholder="1234-0987654321"
+              className="input validator"
+              pattern="^\d{4}-\d{9}$"
               value={ mvFileNumber }
               onChange={ e => setMvFileNumber(e.target.value)}
             />
@@ -100,12 +112,16 @@ export default function SearchVehicle (){
 
           {/* CHASSIS */}
           <div className="col-span-2 flex justify-center">
+            <label className="label mr-4" htmlFor="chassis_no">
+              Chassis Number
+            </label>
             <input 
               type="text" 
               name="chassis_no" 
               id="chassis_no" 
-              placeholder="Chassis"
-              className="input"
+              placeholder="WDC2050011G000123"
+              className="input validator"
+              pattern="^[A-HJ-NPR-Z0-9]{17}$"
               value={ chassis }
               onChange={ e => setChassis(e.target.value)}
             />
@@ -113,17 +129,22 @@ export default function SearchVehicle (){
 
           {/* ENGINE */}
           <div className="col-span-2 flex justify-center">
+            <label className="label mr-4" htmlFor="engine_no">
+              Engine Number
+            </label>
             <input 
               type="text" 
               name="engine_no" 
               id="engine_no" 
-              placeholder="Engine"
-              className="input"
+              placeholder="4G15012345"
+              className="input validator"
+              pattern="^[A-Z0-9]{5,25}$"
               value={ engine }
               onChange={ e => setEngine(e.target.value)}
             />
           </div>
 
+          {/* VIN */}
           <input 
             type="text" 
             name="vin_no" 
@@ -133,8 +154,8 @@ export default function SearchVehicle (){
             onChange={ e => setVin(e.target.value)}
           />
 
-          <div className="col-start-4 col-span-1 flex justify-center" style={{display: 'none'}}>
-            <button type="submit" className="btn btn-neutral btn-dash">Search</button>
+          <div className="col-start-5 col-span-1 mr-8">
+            <button type="submit" className="btn btn-neutral">Search</button>
           </div>
 
           {isPending ? <VehicleApiResult alertType="info" message="Searching..." /> : null}
